@@ -1,73 +1,27 @@
 import curses
+from Game import Game
+from PokerHand import PokerHand 
+from Deck import Deck
 from curses import wrapper
 import random
 import time
 
 def main(stdscr):
-    playerHand = []
-    PlayerCount = 0
-    dealerHand = []
-    usedCards = []
-    GameOver = False
-    suits = ['♥', '♦', '♣', '♠']
-    values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q','K' ]
-
-    #Deck Is Created And Placed in a variable Deck List 
-    def CreateADeck():
-        deck = []
-        for s in suits:
-            for v in values:
-                deck.append((v+s))
-        return deck
-
-    deck = CreateADeck()
-
-
-    #Random Number Generator For Deck (Should....Only select each card once... Doesn't Seem To)
-    def RandNumGen():
-        Num = random.randint(0,51)
-        while Num in usedCards:
-            Num = random.randint(0,51)
-        usedCards.append(Num)
-        return Num
-
-        #Create a for loop the goes through hand and updates player count
-    def updateCount(hand, count = 0):
-        for card in hand:
-            if card[0] == 'A' and count >= 11:
-                count += 1
-            elif card[0] == 'A' and count <= 10:
-                count += 11
-            elif card[0] == 'J' or card[0] == 'Q' or card[0] == 'K' or card[0:2] == '10':
-                count += 10
-            else:
-                count += int(card[0])
-        return count
-
-    def playerDrawCard(i):
-        if GameOver == False:
-            DrawnCard = deck.pop(i)
-            playerHand.append(DrawnCard)
-            return [DrawnCard]
-
-    def dealerDrawCard(i):
-        DrawnCard = deck.pop(i)
-        dealerHand.append(DrawnCard)
-        return [DrawnCard]
+    game = Game()
 
     stdscr.clear()
     stdscr.addstr( 5, 10, 'BLACKJACK')
-    stdscr.addstr( 7, 2, 'press any key to continue')
+    stdscr.addstr( 7, 2, 'Press Any Key To Continue')
     stdscr.refresh()
     stdscr.getkey()
     
     stdscr.clear()
-    dealerDrawnCards = ((dealerDrawCard(RandNumGen())) + dealerDrawCard(RandNumGen()))
+    dealerDrawnCards = (dealerDrawCard(RandNumGen()))
     playerDrawnCards = ((playerDrawCard(RandNumGen())) + playerDrawCard(RandNumGen()))
     dealerCount = updateCount(dealerHand)
     playerCount = updateCount(playerHand)
     while playerCount < 22:
-        stdscr.addstr( 1, 10, f'Dealer Card: {dealerHand[0]}')
+        stdscr.addstr( 1, 10, f'Dealer Card: {dealerHand}')
         stdscr.addstr( 2, 10, f'Dealer Count: {dealerCount}')
         stdscr.addstr( 7, 10, 'Press H to Hit')
         stdscr.addstr( 8, 9, 'Press S to Stand')
@@ -83,13 +37,56 @@ def main(stdscr):
         stdscr.addstr(14, 6, f'Player Cards:{playerHand}')
         stdscr.addstr( 15, 6, f'Player Count: {playerCount}')
         stdscr.refresh()
-
-    #Pause To Let Player Know They Have Lost.
+        if key == ord('S') or key == ord('s'):
+            dealerDrawCard(RandNumGen())
+            dealerCount = updateCount(dealerHand)
+            stdscr.addstr( 1, 10, f'Dealer Card: {dealerHand}')
+            stdscr.addstr( 2, 10, f'Dealer Count: {dealerCount}')
+            stdscr.refresh()
+            while dealerCount < playerCount:
+                time.sleep(1)
+                dealerDrawCard(RandNumGen())
+                dealerCount = updateCount(dealerHand)
+                stdscr.addstr( 1, 10, f'Dealer Card: {dealerHand}')
+                stdscr.addstr( 2, 10, f'Dealer Count: {dealerCount}')
+                stdscr.refresh()
+                if playerCount > dealerCount:
+                    time.sleep(1)
+                    stdscr.clear()
+                    stdscr.addstr( 6, 12, 'WINNER')
+                    stdscr.addstr( 8, 11, 'You Win!')
+                    stdscr.refresh()
+                    stdscr.getkey()
+        if dealerCount == playerCount:
+            time.sleep(1)
+            stdscr.clear()
+            stdscr.addstr( 6, 12, 'PUSH')
+            stdscr.addstr( 7, 6, 'Game Was A Tie')
+            stdscr.refresh()
+            stdscr.getkey()
+        elif dealerCount > 21:
+            time.sleep(1)
+            stdscr.clear()
+            stdscr.addstr( 6, 12, 'DEALER BUSTED')
+            stdscr.addstr( 8, 14, 'You Win!')
+            stdscr.refresh()
+            stdscr.getkey()
+        elif dealerCount <= 21 and playerCount < dealerCount:
+            time.sleep(1)
+            stdscr.clear()
+            stdscr.addstr( 6, 12, 'DEALER WINS')
+            stdscr.addstr( 8, 10, 'You LOSE!')
+            stdscr.refresh()
+            stdscr.getkey()
+      
+    #Pause To Let Player Realize They Have Lost.
     time.sleep(1)
+    #Game Over
     GameOver = True
     stdscr.clear()
-    stdscr.addstr(7, 12, 'BUST!')
-    stdscr.addstr(8, 10, 'You Lose!')
+    stdscr.addstr(6, 12, 'BUST!')
+    stdscr.addstr(7, 10, 'You Lost!')
+    stdscr.addstr(9, 4, 'Press Ctrl + C to Exit')
     stdscr.refresh()
     stdscr.getkey()
 wrapper(main)
