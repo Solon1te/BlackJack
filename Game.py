@@ -48,4 +48,4 @@ class Game:
             return False
 
 
-Game.deck.show()
+Game.Deal()

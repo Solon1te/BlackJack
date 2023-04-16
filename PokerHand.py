@@ -1,16 +1,18 @@
+from Deck import Deck 
+
 class PokerHand:
 
-    def __init__(pokerHand):
-        pokerHand.cards = []
+    def __init__(self):
+        self.cards = []
 
 
-    def AddCard(pokerHand, card):
-        playerHand.append(card)
+    def AddCard(self, card):
+        self.append(card)
 
-    def GetHandValue(pokerHand):
+    def GetHandValue(self):
         count = 0
         numAces = 0
-        for card in pokerHand.cards:
+        for card in self.cards:
             if card.value == 'A':
                 numAces += 1
             elif card.value == 'J' or card.value == 'Q' or card.value == 'K' or card.value == '10':
@@ -24,4 +26,3 @@ class PokerHand:
                 count += 11
         return count
         
-    
