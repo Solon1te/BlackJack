@@ -3,42 +3,51 @@ from Deck import Deck
 
 class Game:
 
-    def __init__(game):
-        game.playerHand = PokerHand()
-        game.dealerHand = PokerHand()
-        game.deck = Deck()
-        game.maxVal = 21
-        game.playerStatus = 'P'
+    def __init__(self):
+        self.playerHand = PokerHand()
+        self.dealerHand = PokerHand()
+        self.deck = Deck()
+        self.maxVal = 21
+        self.playerStatus = 'P'
     
     def Deal(game):
         for x in range(2):
             game.PlayerDrawCard()
             game.DealerDrawCard()
+        game.dealerHand.hand[0].hide()
+        # print(game.dealerHand.hand[0].show())
+        # print(game.dealerHand.hand[1].show())
+
     
     def PlayerTurn(game):
         playerInput = ''
         while playerInput.lower() != 's':
-            stdscr.addstr( 7, 10, 'Press H to Hit')
-            stdscr.addstr( 8, 9, 'Press S to Stand')
-            playerInput = stdscr.getch()
             if playerInput.lower() == ord('h'):
                 game.PlayerDrawCard()
 
     def PlayerDrawCard(game):
-        playerCard = game.deck.DrawCard()
+        playerCard = game.deck.Draw()
         game.playerHand.AddCard(playerCard)
         
         playerCount = game.playerHand.GetHandValue()
         if game.ExceedMaxValue(playerCount):
             game.playerStatus = 'L'   
 
-    def DealerDrawCard(game):
-        dealerCard = game.deck.DrawCard()
+    def DealerDrawCard(game, faceUp=True):
+        dealerCard = game.deck.Draw()
         game.dealerHand.AddCard(dealerCard)
 
         dealerCount = game.dealerHand.GetHandValue()
         if game.ExceedMaxValue(dealerCount):
-            game.playerStatus = 'W'   
+            game.playerStatus = 'W'
+
+        # Show the dealer's card
+        if len(game.dealerHand.hand) == 1:
+            game.dealerHand.hand[0].show(faceUp = False)
+
+        else:
+            for card in game.dealerHand.hand:
+                card.show(faceUp=True) 
 
 
     def ExceedMaxValue(game, count):
@@ -47,5 +56,8 @@ class Game:
         else: 
             return False
 
-
-Game.Deal()
+game = Game()
+game.deck.Shuffle()
+game.Deal()
+# game.dealerHand.ShowHand()
+# print(game.dealerHand.GetHandValue())
