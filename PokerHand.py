@@ -8,7 +8,7 @@ class PokerHand:
 
 
     def AddCard(self, deck):
-        self.hand.append(deck.Draw())
+        self.hand.append(deck)
 
     def ShowHand(self):
         for card in self.hand:

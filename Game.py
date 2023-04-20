@@ -12,10 +12,10 @@ class Game:
     
     def Deal(game):
         for x in range(2):
-            game.PlayerDrawCard()
+            # game.PlayerDrawCard()
             game.DealerDrawCard()
-        game.dealerHand.hand[0].hide()
-        # print(game.dealerHand.hand[0].show())
+        # game.dealerHand.hand[0].hide()
+        print(game.dealerHand.hand[0].show())
         # print(game.dealerHand.hand[1].show())
 
     
