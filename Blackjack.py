@@ -16,15 +16,16 @@ def main(stdscr):
     stdscr.addstr( 7, 2, 'Press Any Key To Continue')
     stdscr.refresh()
     stdscr.getkey()
-    
-    stdscr.clear()
-    stdscr.addstr( 1, 10, f'Dealer Hand: {game.pokerHand.ShowHand(game.dealerHand)}')
-    stdscr.addstr( 2, 10, f'Dealer Count: {dealerCount}')
-    stdscr.addstr( 7, 10, 'Press H to Hit')
-    stdscr.addstr( 8, 9, 'Press S to Stand')
-    stdscr.addstr( 14, 6, f'Player Cards:{playerHand}')
-    stdscr.addstr( 15, 6, f'Player Count: {playerCount}')
-    key = stdscr.getch()
+
+    if game.playerStatus == 'P':
+        stdscr.clear()
+        stdscr.addstr( 1, 10, f'Dealer Hand: {game.pokerHand.ShowHand(game.dealerHand)}')
+        stdscr.addstr( 2, 10, f'Dealer Count: {dealerCount}')
+        stdscr.addstr( 7, 10, 'Press H to Hit')
+        stdscr.addstr( 8, 9, 'Press S to Stand')
+        stdscr.addstr( 14, 6, f'Player Cards:{playerHand}')
+        stdscr.addstr( 15, 6, f'Player Count: {playerCount}')
+        key = stdscr.getch()
     if key == ord('H') or key == ord('h'):
         playerDrawCard(RandNumGen())
         playerCount = updateCount(playerHand)
@@ -54,21 +55,21 @@ def main(stdscr):
                 stdscr.addstr( 8, 11, 'You Win!')
                 stdscr.refresh()
                 stdscr.getkey()
-    if dealerCount == playerCount:
+    if game.playerStatus == 'T':
         time.sleep(1)
         stdscr.clear()
         stdscr.addstr( 6, 12, 'PUSH')
         stdscr.addstr( 7, 6, 'Game Was A Tie')
         stdscr.refresh()
         stdscr.getkey()
-    elif dealerCount > 21:
+    if game.playerStatus == 'W':
         time.sleep(1)
         stdscr.clear()
         stdscr.addstr( 6, 12, 'DEALER BUSTED')
         stdscr.addstr( 8, 14, 'You Win!')
         stdscr.refresh()
         stdscr.getkey()
-    elif dealerCount <= 21 and playerCount < dealerCount:
+    if game.playerStatus == 'L':
         time.sleep(1)
         stdscr.clear()
         stdscr.addstr( 6, 12, 'DEALER WINS')
