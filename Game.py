@@ -3,20 +3,20 @@ from Deck import Deck
 
 class Game:
 
-    def __init__(self):
-        self.playerHand = PokerHand()
-        self.dealerHand = PokerHand()
-        self.deck = Deck()
-        self.maxVal = 21
-        self.playerStatus = 'P'
+    def __init__(game):
+        game.playerHand = PokerHand()
+        game.dealerHand = PokerHand()
+        game.deck = Deck()
+        game.maxVal = 21
+        game.playerStatus = 'P'
     
     def Deal(game):
         for x in range(2):
-            # game.PlayerDrawCard()
+            game.PlayerDrawCard()
             game.DealerDrawCard()
-        # game.dealerHand.hand[0].hide()
+        game.dealerHand.hand[0].hide()
         print(game.dealerHand.hand[0].show())
-        # print(game.dealerHand.hand[1].show())
+        print(game.dealerHand.hand[1].show())
 
     
     def PlayerTurn(game):
@@ -56,8 +56,8 @@ class Game:
         else: 
             return False
 
-game = Game()
-game.deck.Shuffle()
-game.Deal()
+# game = Game()
+# game.deck.Shuffle()
+# game.Deal()
 # game.dealerHand.ShowHand()
 # print(game.dealerHand.GetHandValue())

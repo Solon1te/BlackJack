@@ -3,21 +3,29 @@ from Deck import Deck
 
 class PokerHand:
 
-    def __init__(self):
-        self.hand = []
+    def __init__(pokerhand):
+        pokerhand.hand = []
 
 
-    def AddCard(self, deck):
-        self.hand.append(deck)
+    def AddCard(pokerhand, deck):
+        pokerhand.hand.append(deck)
 
-    def ShowHand(self):
-        for card in self.hand:
-            card.show()
+    def ShowHand(pokerhand):
+        handlist = []
+        for i, card in enumerate(pokerhand.hand):
+            if i == 0 and not card.faceUp:
+                handlist.append('XX')
+            else:
+                handlist.append(card.show())
+        return handlist
 
-    def GetHandValue(self):
+    def GetHandValue(pokerhand):
         count = 0
         numAces = 0
-        for card in self.hand:
+        
+        for card in pokerhand.hand:
+            if card.faceUp == False:
+                count += 0
             if card.value == 'A':
                 numAces += 1
             elif card.value == 'J' or card.value == 'Q' or card.value == 'K' or card.value == '10':
@@ -30,4 +38,3 @@ class PokerHand:
             else: 
                 count += 11
         return count
-

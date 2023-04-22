@@ -19,12 +19,12 @@ def main(stdscr):
 
     if game.playerStatus == 'P':
         stdscr.clear()
-        stdscr.addstr( 1, 10, f'Dealer Hand: {game.pokerHand.ShowHand(game.dealerHand)}')
-        stdscr.addstr( 2, 10, f'Dealer Count: {dealerCount}')
+        stdscr.addstr( 1, 10, f'Dealer Hand: {game.dealerHand.ShowHand()}')
+        stdscr.addstr( 2, 10, f'Dealer Count: {game.dealerHand.GetHandValue()}')
         stdscr.addstr( 7, 10, 'Press H to Hit')
         stdscr.addstr( 8, 9, 'Press S to Stand')
-        stdscr.addstr( 14, 6, f'Player Cards:{playerHand}')
-        stdscr.addstr( 15, 6, f'Player Count: {playerCount}')
+        stdscr.addstr( 14, 10, f'Player Cards:{game.playerHand.ShowHand()}')
+        stdscr.addstr( 15, 10, f'Player Count: {game.playerHand.GetHandValue()}')
         key = stdscr.getch()
     if key == ord('H') or key == ord('h'):
         playerDrawCard(RandNumGen())

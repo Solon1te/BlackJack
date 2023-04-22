@@ -3,25 +3,25 @@ import random
 
 class Deck:
 
-    def __init__(self):
-        self.cards = []
-        self.build()
+    def __init__(deck):
+        deck.cards = []
+        deck.build()
         
         
-    def build(self):
+    def build(deck):
         for s in ['♥', '♦', '♣', '♠']:
             for v in ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q','K' ]:
-                self.cards.append(Card(s,v))
+                deck.cards.append(Card(s,v))
     
-    def Show(self):
-        for c in self.cards:
+    def Show(deck):
+        for c in deck.cards:
             c.show()
 
-    def Shuffle(self):
-        for i in range(len(self.cards)-1, 0, -1):
+    def Shuffle(deck):
+        for i in range(len(deck.cards)-1, 0, -1):
             r = random.randint(0, i)
-            self.cards[i], self.cards[r] = self.cards[r], self.cards[i]
+            deck.cards[i], deck.cards[r] = deck.cards[r], deck.cards[i]
 
         
-    def Draw(self):
-        return self.cards.pop()
+    def Draw(deck):
+        return deck.cards.pop()

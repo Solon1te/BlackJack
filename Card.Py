@@ -1,24 +1,24 @@
 
 class Card():
-    def __init__(self, suit, value):
-        self.suit = suit
-        self.value = value
-        self.faceUp = True
-        
-    def show(self, faceUp = True):
-        if faceUp:
-            print('{}{}'.format(self.value, self.suit))
-        else:
-            print('XX')
-            
-    def reveal(self):
-        self.faceUp = True
-        
-    def hide(self):
-        self.faceUp = False
+    def __init__(card, suit, value):
+        card.suit = suit
+        card.value = value
+        card.faceUp = True
 
-    def Draw(self, faceUp=True):
+    def show(card, faceUp = True):
         if faceUp:
-            return self
+            return('{}{}'.format(card.value, card.suit))
+        else:
+            return('XX')
+            
+    def reveal(card):
+        card.faceUp = True
+        
+    def hide(card):
+        card.faceUp = False
+
+    def Draw(card, faceUp=True):
+        if faceUp:
+            return card
         else: 
             return ' '
