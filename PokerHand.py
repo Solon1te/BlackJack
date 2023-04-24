@@ -26,12 +26,13 @@ class PokerHand:
         for card in pokerhand.hand:
             if card.faceUp == False:
                 count += 0
-            if card.value == 'A':
+            elif card.value == 'A':
                 numAces += 1
             elif card.value == 'J' or card.value == 'Q' or card.value == 'K' or card.value == '10':
                 count += 10
             else:
                 count += int(card.value) 
+                
         for x in range(numAces):
             if count >= 11:
                 count += 1
