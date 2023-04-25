@@ -10,6 +10,10 @@ class PokerHand:
     def AddCard(pokerhand, deck):
         pokerhand.hand.append(deck)
 
+    def RevealFirstCard(pokerhand):
+        if len(pokerhand.hand) > 0:
+            pokerhand.hand[0].reveal()
+
     def ShowHand(pokerhand):
         handlist = []
         for i, card in enumerate(pokerhand.hand):

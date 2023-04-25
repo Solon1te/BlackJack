@@ -1,5 +1,6 @@
 from PokerHand import PokerHand 
 from Deck import Deck
+import time
 
 class Game:
 
@@ -25,6 +26,24 @@ class Game:
             if playerInput.lower() == ord('h'):
                 game.PlayerDrawCard()
 
+    def DealerTurn(game):
+        game.dealerHand.RevealFirstCard()
+        dealerCount = game.dealerHand.GetHandValue()
+        while dealerCount < 17:
+            game.DealerDrawCard()
+            time.sleep(1)
+            dealerCount = game.dealerHand.GetHandValue()
+        if game.ExceedMaxValue(dealerCount):
+            game.playerStatus = 'W'
+        else:
+            playerCount = game.playerHand.GetHandValue()
+            if dealerCount > playerCount:
+                game.playerStatus = 'L'
+            elif dealerCount == playerCount:
+                game.playerStatus = 'T'
+            else:
+                game.playerStatus = 'W'
+
     def PlayerDrawCard(game):
         playerCard = game.deck.Draw()
         game.playerHand.AddCard(playerCard)
@@ -41,13 +60,6 @@ class Game:
         if game.ExceedMaxValue(dealerCount):
             game.playerStatus = 'W'
 
-        # Show the dealer's card
-        if len(game.dealerHand.hand) == 1:
-            game.dealerHand.hand[0].show(faceUp = False)
-
-        else:
-            for card in game.dealerHand.hand:
-                card.show(faceUp=True) 
 
 
     def ExceedMaxValue(game, count):
@@ -55,9 +67,3 @@ class Game:
             return True
         else: 
             return False
-
-# game = Game()
-# game.deck.Shuffle()
-# game.Deal()
-# game.dealerHand.ShowHand()
-# print(game.dealerHand.GetHandValue())
